@@ -1,0 +1,48 @@
+<!-- Declara ao navegador que este documento segue o padrao moderno do HTML5 -->
+<!DOCTYPE html>
+<!-- Elemento raiz da pagina, definindo o idioma principal como portugues do Brasil -->
+<html lang="pt-BR">
+<!-- Cabecalho da pagina: contem metadados e referencias a recursos externos -->
+<head>
+  <!-- Define a codificacao de caracteres como UTF-8, garantindo suporte a acentos e caracteres especiais -->
+  <meta charset="UTF-8">
+  <!-- Configura a visualizacao em dispositivos moveis para ser responsiva e ajustar a largura a tela -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Define o texto exibido na aba do navegador -->
+  <title>Meu Dia - Lista de Tarefas</title>
+  <!-- Importa a folha de estilo externa (CSS) responsavel pelo visual da pagina -->
+  <link rel="stylesheet" href="style.css">
+<!-- Fim da secao do cabecalho -->
+</head>
+<!-- Corpo do documento: contem todos os elementos visiveis ao usuario -->
+<body>
+  <!-- Tag semantica que representa o conteudo central e principal da aplicacao -->
+  <main class="app-container">
+    <!-- Titulo principal da pagina com identificacao do aplicativo -->
+    <h1 class="titulo">Meu Dia</h1>
+
+    <!-- Formulario para envio de dados, permitindo acao com clique ou tecla Enter -->
+    <form id="form-tarefa" class="entrada-container">
+      <!-- Campo de texto onde o usuario digita a descricao da tarefa -->
+      <input 
+        type="text" 
+        id="input-tarefa" 
+        placeholder="O que voce precisa fazer hoje?" 
+        autocomplete="off"
+      >
+      <!-- Botao para submeter o formulario e disparar a criacao da tarefa -->
+      <button type="submit" id="btn-adicionar" class="btn-azul">Adicionar</button>
+    <!-- Fim do formulario de entrada -->
+    </form>
+
+    <!-- Lista nao ordenada onde as tarefas serao inseridas dinamicamente pelo JavaScript -->
+    <ul id="lista-tarefas" class="lista-tarefas"></ul>
+  <!-- Fim do container principal -->
+  </main>
+
+  <!-- Importa o script JavaScript que contem a logica e persistencia de dados -->
+  <script src="script.js"></script>
+<!-- Fim do corpo do documento -->
+</body>
+<!-- Fim do elemento raiz HTML -->
+</html>

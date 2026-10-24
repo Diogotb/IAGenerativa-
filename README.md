@@ -100,5 +100,26 @@ confirmar com o comando:
 `git config --list`
 
 
+### Meu Primeiro Projeto Antigravity com IA Generativa
+
+**O Contexto (O que vamos Construtir)**
+
+- Gerenciador de Tarefas: HTML, CSS, JavaScript
+
+**O Prompt para o Antigravity**
+
+"Atue como um desenvolvedor web sênior. Quero criar um aplicativo de 'Lista de Tarefas' simples e bonito. Por favor, gere os 3 arquivos necessários (HTML, CSS e JavaScript) seguindo estas regras:
+1. Front-end (Interface - HTML e CSS):
+Crie um título centralizado chamado 'Meu Dia'.
+Crie um campo de texto para digitar a tarefa e um botão azul escrito 'Adicionar'.
+Abaixo, crie uma lista onde as tarefas vão aparecer.
+Use um design moderno, com cantos arredondados e fundo claro.
+2. Back-end/Lógica (JavaScript):
+Quando eu clicar em 'Adicionar', a tarefa deve ir para a lista.
+Se o campo estiver vazio, mostre um alerta pedindo para digitar algo.
+Coloque um botão vermelho de 'Excluir' do lado de cada tarefa.
+3. Banco de Dados / Memória:
+Use o 'LocalStorage' do navegador para salvar as tarefas. Assim, se eu fechar a página e abrir de novo, minhas tarefas ainda estarão lá.
+Forneça o código completo e separado de cada arquivo."
 
 
