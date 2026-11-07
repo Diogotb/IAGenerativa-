@@ -1,0 +1,73 @@
+{
+  "name": "abrir-pedido",
+  "displayName": "Abertura de Pedido",
+  "trigger": "/abrir-pedido",
+  "description": "Executa o fluxo completo de abertura de pedido para uma mesa, validando existência e disponibilidade de mesa e itens de cardápio, registrando comanda e itens, sob confirmação humana obrigatória.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "mesa": {
+        "type": "integer",
+        "description": "Número identificador da mesa (inteiro)"
+      },
+      "codigo_item": {
+        "type": "string",
+        "description": "Código único do item no cardápio (ex: RIS-01, SUC-02)"
+      },
+      "quantidade": {
+        "type": "integer",
+        "description": "Quantidade desejada do item (inteiro maior que zero)"
+      },
+      "obs": {
+        "type": "string",
+        "description": "Observações alimentares ou preferências do cliente (opcional)"
+      }
+    },
+    "required": [
+      "mesa",
+      "codigo_item",
+      "quantidade"
+    ]
+  },
+  "requiredMcp": [
+    "database"
+  ],
+  "humanInTheLoop": {
+    "required": true,
+    "action": "database_write"
+  },
+  "operationalSteps": [
+    {
+      "step": 1,
+      "name": "validar_e_atualizar_mesa",
+      "description": "Validar se a mesa existe na tabela 'mesas' e preparar a atualização do seu status para 'OCUPADA'.",
+      "sql": "SELECT id, numero, status FROM mesas WHERE numero = ?;"
+    },
+    {
+      "step": 2,
+      "name": "verificar_disponibilidade_item",
+      "description": "Verificar se o item existe na tabela 'cardapio' e se o campo 'disponivel' é igual a 1.",
+      "sql": "SELECT id, codigo, nome, preco, disponivel FROM cardapio WHERE codigo = ? AND disponivel = 1;"
+    },
+    {
+      "step": 3,
+      "name": "preparar_registros_pedido_itens",
+      "description": "Calcular o valor total e preparar os registros para inserção nas tabelas 'pedidos' e 'itens_pedido'.",
+      "entities": [
+        "pedidos",
+        "itens_pedido"
+      ]
+    },
+    {
+      "step": 4,
+      "name": "solicitar_aprovacao_usuario",
+      "description": "Apresentar o resumo discriminado com valores e observações e solicitar a aprovação humana explícita antes de efetivar a gravação no banco de dados.",
+      "approvalRequired": true,
+      "commitAction": [
+        "INSERT INTO pedidos (mesa_id, status, valor_total) VALUES (?, 'RECEBIDO', ?);",
+        "INSERT INTO itens_pedido (pedido_id, item_cardapio_id, quantidade, preco_unitario, observacao) VALUES (?, ?, ?, ?, ?);",
+        "UPDATE mesas SET status = 'OCUPADA' WHERE numero = ?;"
+      ]
+    }
+  ]
+}

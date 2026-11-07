@@ -1,0 +1,50 @@
+{
+  "name": "test",
+  "displayName": "Execução de Testes Unitários",
+  "trigger": "/test",
+  "description": "Lê o código dos serviços em 'src/services' via MCP filesystem, gera testes unitários com pytest e solicita autorização humana para rodar a suíte no terminal.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "modulo": {
+        "type": "string",
+        "description": "Módulo específico a ser testado em 'src/services' (opcional, padrão: todos)"
+      }
+    }
+  },
+  "requiredMcp": [
+    "filesystem"
+  ],
+  "humanInTheLoop": {
+    "required": true,
+    "action": "terminal_execute"
+  },
+  "operationalSteps": [
+    {
+      "step": 1,
+      "name": "ler_codigo_servicos",
+      "description": "Inspecionar e ler o código-fonte dos serviços contidos em 'src/services' utilizando o MCP filesystem.",
+      "mcp": "filesystem",
+      "targetPath": "src/services"
+    },
+    {
+      "step": 2,
+      "name": "gerar_testes_pytest",
+      "description": "Estruturar ou atualizar arquivos de teste no diretório 'tests/' utilizando pytest, aplicando boas práticas de asserção e comentários em pt-BR.",
+      "outputDirectory": "tests/"
+    },
+    {
+      "step": 3,
+      "name": "solicitar_confirmacao_terminal",
+      "description": "Apresentar a suíte gerada e solicitar confirmação explícita do usuário (Human-in-the-Loop) para execução do comando 'pytest' no terminal.",
+      "approvalRequired": true,
+      "command": "pytest -v"
+    },
+    {
+      "step": 4,
+      "name": "executar_e_reportar",
+      "description": "Executar a suíte de testes no terminal após autorização e exibir o relatório consolidado com status de aprovação de cada teste.",
+      "action": "run_test_suite"
+    }
+  ]
+}

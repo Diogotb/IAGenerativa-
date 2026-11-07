@@ -1,0 +1,59 @@
+{
+  "name": "audit-security",
+  "displayName": "Auditoria de Segurança e Qualidade",
+  "trigger": "/audit-security",
+  "description": "Varre arquivos de código-fonte buscando senhas e segredos estáticos, consultas sem parametrização contra SQL Injection e funções que excedam o limite máximo de 20 linhas.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "diretorio": {
+        "type": "string",
+        "description": "Caminho do diretório a inspecionar (padrão: src)",
+        "default": "src"
+      }
+    }
+  },
+  "requiredMcp": [
+    "filesystem"
+  ],
+  "securityAuditRules": {
+    "maxLinesPerFunction": 20,
+    "disallowHardcodedSecrets": true,
+    "requireParameterizedQueries": true,
+    "enforceLanguageComments": "pt-BR"
+  },
+  "operationalSteps": [
+    {
+      "step": 1,
+      "name": "varredura_arquivos_mcp",
+      "description": "Percorrer e ler os arquivos-fonte no escopo de './src' através do MCP filesystem.",
+      "mcp": "filesystem",
+      "targetPath": "./src"
+    },
+    {
+      "step": 2,
+      "name": "verificar_credenciais_fixas",
+      "description": "Buscar padrões de credenciais, tokens, chaves de API ou senhas estáticas (hardcoded) no código, cobrando o uso de .env.",
+      "checkType": "hardcoded_credentials"
+    },
+    {
+      "step": 3,
+      "name": "verificar_sql_injection",
+      "description": "Detectar queries SQL construídas com interpolação de strings (f-strings ou concatenação) e exigir o uso de marcadores parametrizados '?'.",
+      "checkType": "sql_injection_vulnerabilities"
+    },
+    {
+      "step": 4,
+      "name": "verificar_limite_linhas_funcoes",
+      "description": "Calcular a contagem de linhas de cada função e apontar violações para qualquer função com mais de 20 linhas (Clean Code / SOLID).",
+      "checkType": "function_line_limit",
+      "threshold": 20
+    },
+    {
+      "step": 5,
+      "name": "emitir_relatorio_conformidade",
+      "description": "Apresentar relatório técnico discriminando arquivo, linha, severidade e recomendação de adequação.",
+      "outputFormat": "markdown"
+    }
+  ]
+}

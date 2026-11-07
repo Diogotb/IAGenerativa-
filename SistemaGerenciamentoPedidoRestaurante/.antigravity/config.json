@@ -1,0 +1,62 @@
+{
+  "project": {
+    "name": "GastroFlow",
+    "version": "1.0.0",
+    "description": "Sistema Inteligente de Gerenciamento de Pedidos, Mesas e Cozinhas para Restaurantes"
+  },
+  "mcpServers": {
+    "database": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "--db-path",
+        "${DB_PATH}"
+      ],
+      "env": {
+        "DB_PATH": "./src/database/restaurante.sqlite"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "./src"
+      ]
+    },
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git"
+      ]
+    }
+  },
+  "humanInTheLoop": {
+    "enabled": true,
+    "requireExplicitAuthorization": [
+      "database_write",
+      "file_delete",
+      "terminal_execute"
+    ]
+  },
+  "security": {
+    "humanInTheLoop": {
+      "enabled": true,
+      "requireExplicitAuthorization": [
+        "database_write",
+        "file_delete",
+        "terminal_execute"
+      ]
+    },
+    "audit": {
+      "enabled": true,
+      "logFile": ".antigravity/logs/audit.log"
+    }
+  },
+  "logging": {
+    "auditLog": ".antigravity/logs/audit.log",
+    "level": "info"
+  }
+}

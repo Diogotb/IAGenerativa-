@@ -1,0 +1,30 @@
+# Arquivos de ambiente e segredos
+.env
+*.env
+!.env.example
+
+# Bancos de dados SQLite
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs e arquivos de execução
+*.log
+logs/
+.antigravity/logs/*
+!.antigravity/logs/.gitkeep
+
+# Python e bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cache de testes e cobertura (pytest)
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
